@@ -16,33 +16,39 @@ def heybox_search_crawler(game_name):
     if page['result']['games']==None:
         msg="查询不到有叫这个名字的游戏哦~"
         return msg
+
     game=page['result']['games'][0]['name']
+    game_pic = page['result']['games'][0]['image']
+    if page['result']['games'][0]['is_free'] == True:
+        msg = f"【游戏名】:{game}\n" + MessageSegment.image(game_pic)
+        msg = msg + f"\n{game} 是免费游戏哦\n"
+        return msg
     initial_price=page['result']['games'][0]['price']['initial']
     current_price=page['result']['games'][0]['price']['current']
     lowest_price=page['result']['games'][0]['price']['lowest_price_raw']
     discount=str(page['result']['games'][0]['price']['discount'])
-    game_pic=page['result']['games'][0]['image']
+
     if page['result']['games'][0]['price']['discount'] == 0:
         msg = f"【游戏名】:{game}\n"+MessageSegment.image(game_pic)
-        msg = msg + f"【原价】:{initial_price}\n" +f"【当前】:{current_price}\n"+f"【史低】:{lowest_price}"
+        msg = msg + f"【原价】:{initial_price}元\n" +f"【当前】:{current_price}元\n"+f"【史低】:{lowest_price}元"
         msg = msg + f"\n现在 {game} 是原价哦\n"
     elif page['result']['games'][0]['price']['is_lowest'] == 0:
-        deadline = page['result']['games'][0]['price']['deadline']
+        deadline = page['result']['games'][0]['price']['deadline_date']
         msg = f"【游戏名】:{game}\n" + MessageSegment.image(game_pic)
-        msg = msg + f"【原价】:{initial_price}\n" +f"【当前】:{current_price}\n"+f"【史低】:{lowest_price}\n"
+        msg = msg + f"【原价】:{initial_price}元\n" +f"【当前】:{current_price}元\n"+f"【史低】:{lowest_price}元"
         msg = msg + f"\n现在 {game} 的折扣是-{discount}%,还不是史低哦\n"
         msg = msg + f"本次折扣还{deadline}"
     elif page['result']['games'][0]['price']['is_lowest'] == 1 and page['result']['games'][0]['price']['new_lowest'] == 0:
-        deadline = page['result']['games'][0]['price']['deadline']
+        deadline = page['result']['games'][0]['price']['deadline_date']
         msg = f"【游戏名】:{game}\n" + MessageSegment.image(game_pic)
-        msg = msg + f"【原价】:{initial_price}\n" + f"【当前】:{current_price}\n" + f"【史低】:{lowest_price}\n"
-        msg = msg + f"\n现在 {game} 的折扣是-{discount}%,是史低哦!!!\n"
+        msg = msg + f"【原价】:{initial_price}元\n" +f"【当前】:{current_price}元\n"+f"【史低】:{lowest_price}元"
+        msg = msg + f"\n现在 {game} 的折扣是-{discount}%,是史低哦！！！\n"
         msg = msg + f"本次折扣还{deadline}"
     elif page['result']['games'][0]['price']['is_lowest'] == 1 and page['result']['games'][0]['price']['new_lowest'] == 1:
-        deadline = page['result']['games'][0]['price']['deadline']
+        deadline = page['result']['games'][0]['price']['deadline_date']
         msg = f"【游戏名】:{game}\n" + MessageSegment.image(game_pic)
-        msg = msg + f"【原价】:{initial_price}\n" + f"【当前】:{current_price}\n" + f"【史低】:{lowest_price}\n"
-        msg = msg + f"\n现在 {game} 的折扣是-{discount}%,是新史低!!!快买买买!!!\n"
+        msg = msg + f"【原价】:{initial_price}元\n" +f"【当前】:{current_price}元\n"+f"【史低】:{lowest_price}元"
+        msg = msg + f"\n现在 {game} 的折扣是-{discount}%,是新史低！！！快买买买！！！\n"
         msg = msg + f"本次折扣还{deadline}"
     return msg
 
