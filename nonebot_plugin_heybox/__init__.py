@@ -3,7 +3,7 @@ from nonebot import on_command, on_regex, on_keyword
 from nonebot.adapters.onebot.v11 import Bot, MessageEvent, GROUP, MessageSegment, Event, Message, GroupMessageEvent
 from .heybox_crawler import *
 
-heybox_search = on_command("小黑盒搜", block=True)
+heybox_search = on_command("小黑盒搜",aliases={"查游戏","查史低"}, priority=46, block=True)
 heybox_lowest = on_command("小黑盒史低", priority=46, block=True)
 
 
